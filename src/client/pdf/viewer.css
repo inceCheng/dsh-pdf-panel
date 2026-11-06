@@ -1,0 +1,539 @@
+/**
+ * Self-contained stylesheet for the lazy PDF viewer chunk.
+ *
+ * The chunk injects this text at import time (`installViewerStyles`), scoping
+ * every rule under `.dsh-pdf-viewer` so the plugin cannot affect the host. The
+ * root fills its container with its own scrollport; colours follow the host
+ * theme variables where available and fall back to a cool neutral palette that
+ * switches with `prefers-color-scheme`.
+ */
+
+.dsh-pdf-viewer {
+  /* Light theme tokens (overridden below for dark). */
+  --dsh-pdf-bg: #eceef1;
+  --dsh-pdf-toolbar-bg: rgba(250, 251, 252, 0.92);
+  --dsh-pdf-toolbar-border: rgba(15, 23, 42, 0.09);
+  --dsh-pdf-label: #1f2328;
+  --dsh-pdf-label-secondary: #6b7280;
+  --dsh-pdf-hover: rgba(15, 23, 42, 0.07);
+  --dsh-pdf-active: rgba(15, 23, 42, 0.12);
+  --dsh-pdf-skeleton: #e0e3e8;
+  --dsh-pdf-page: #ffffff;
+  --dsh-pdf-shadow: 0 1px 2px rgba(15, 23, 42, 0.10), 0 6px 20px rgba(15, 23, 42, 0.10);
+  --dsh-pdf-selection: rgba(59, 130, 246, 0.32);
+  --dsh-pdf-menu-bg: #ffffff;
+  --dsh-pdf-menu-border: rgba(15, 23, 42, 0.10);
+  --dsh-pdf-menu-shadow: 0 12px 32px rgba(15, 23, 42, 0.18);
+  --dsh-pdf-danger: #c0392b;
+  --dsh-pdf-accent: #2f6fed;
+  --dsh-pdf-focus: rgba(47, 111, 237, 0.45);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  container-type: inline-size;
+  background: var(--dsh-pdf-bg);
+  color: var(--dsh-text-primary, var(--dsh-pdf-label));
+  font-family: var(--dsh-font-family, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", sans-serif);
+  font-size: 13px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-ds-theme-source="light"]) .dsh-pdf-viewer {
+    --dsh-pdf-bg: #15171b;
+    --dsh-pdf-toolbar-bg: rgba(26, 28, 33, 0.92);
+    --dsh-pdf-toolbar-border: rgba(255, 255, 255, 0.10);
+    --dsh-pdf-label: #e7e9ec;
+    --dsh-pdf-label-secondary: #9aa1ab;
+    --dsh-pdf-hover: rgba(255, 255, 255, 0.09);
+    --dsh-pdf-active: rgba(255, 255, 255, 0.15);
+    --dsh-pdf-skeleton: #24272d;
+    --dsh-pdf-page: #ffffff;
+    --dsh-pdf-shadow: 0 1px 2px rgba(0, 0, 0, 0.55), 0 8px 26px rgba(0, 0, 0, 0.45);
+    --dsh-pdf-selection: rgba(110, 168, 255, 0.38);
+    --dsh-pdf-menu-bg: #24272d;
+    --dsh-pdf-menu-border: rgba(255, 255, 255, 0.12);
+    --dsh-pdf-menu-shadow: 0 14px 36px rgba(0, 0, 0, 0.6);
+    --dsh-pdf-danger: #f17070;
+    --dsh-pdf-accent: #7aa7ff;
+    --dsh-pdf-focus: rgba(122, 167, 255, 0.55);
+    color: var(--dsh-text-primary, var(--dsh-pdf-label));
+  }
+}
+
+/* Host-pinned theme (`<html data-ds-theme-source="dark|light">`) beats the OS. */
+html[data-ds-theme-source="dark"] .dsh-pdf-viewer {
+  --dsh-pdf-bg: #15171b;
+  --dsh-pdf-toolbar-bg: rgba(26, 28, 33, 0.92);
+  --dsh-pdf-toolbar-border: rgba(255, 255, 255, 0.10);
+  --dsh-pdf-label: #e7e9ec;
+  --dsh-pdf-label-secondary: #9aa1ab;
+  --dsh-pdf-hover: rgba(255, 255, 255, 0.09);
+  --dsh-pdf-active: rgba(255, 255, 255, 0.15);
+  --dsh-pdf-skeleton: #24272d;
+  --dsh-pdf-page: #ffffff;
+  --dsh-pdf-shadow: 0 1px 2px rgba(0, 0, 0, 0.55), 0 8px 26px rgba(0, 0, 0, 0.45);
+  --dsh-pdf-selection: rgba(110, 168, 255, 0.38);
+  --dsh-pdf-menu-bg: #24272d;
+  --dsh-pdf-menu-border: rgba(255, 255, 255, 0.12);
+  --dsh-pdf-menu-shadow: 0 14px 36px rgba(0, 0, 0, 0.6);
+  --dsh-pdf-danger: #f17070;
+  --dsh-pdf-accent: #7aa7ff;
+  --dsh-pdf-focus: rgba(122, 167, 255, 0.55);
+  color: var(--dsh-text-primary, var(--dsh-pdf-label));
+}
+
+/* ---- Toolbar ------------------------------------------------------------ */
+
+.dsh-pdf-viewer__toolbar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  box-sizing: border-box;
+  height: 34px;
+  padding: 0 6px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--dsh-pdf-toolbar-border);
+  background: var(--dsh-pdf-toolbar-bg);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  cursor: default;
+  user-select: none;
+}
+
+.dsh-pdf-viewer__button {
+  appearance: none;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  box-sizing: border-box;
+  height: 24px;
+  min-width: 24px;
+  margin: 0;
+  padding: 0 5px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.dsh-pdf-viewer__button:hover:not(:disabled) {
+  background: var(--dsh-pdf-hover);
+}
+
+.dsh-pdf-viewer__button:active:not(:disabled) {
+  background: var(--dsh-pdf-active);
+}
+
+.dsh-pdf-viewer__button[data-active="true"] {
+  background: var(--dsh-pdf-active);
+}
+
+.dsh-pdf-viewer__button:disabled {
+  opacity: 0.36;
+  cursor: default;
+}
+
+.dsh-pdf-viewer__button:focus-visible {
+  outline: 2px solid var(--dsh-pdf-focus);
+  outline-offset: 1px;
+}
+
+.dsh-pdf-viewer__button svg {
+  display: block;
+}
+
+.dsh-pdf-viewer__page-label,
+.dsh-pdf-viewer__zoom-label {
+  flex: none;
+  overflow: hidden;
+  color: var(--dsh-pdf-label-secondary);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  text-align: center;
+  text-overflow: ellipsis;
+}
+
+.dsh-pdf-viewer__page-label {
+  min-width: 64px;
+  max-width: 140px;
+}
+
+.dsh-pdf-viewer__zoom-label {
+  min-width: 42px;
+}
+
+.dsh-pdf-viewer__separator {
+  flex: none;
+  width: 1px;
+  height: 16px;
+  margin: 0 3px;
+  background: var(--dsh-pdf-toolbar-border);
+}
+
+.dsh-pdf-viewer__hint {
+  flex: 0 1 auto;
+  min-width: 0;
+  margin-left: auto;
+  padding-left: 8px;
+  overflow: hidden;
+  color: var(--dsh-pdf-label-secondary);
+  font-size: 11px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@container (max-width: 620px) {
+  .dsh-pdf-viewer__hint {
+    display: none;
+  }
+}
+
+/* ---- Stage / scrollport ------------------------------------------------- */
+
+.dsh-pdf-viewer__stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.dsh-pdf-viewer__scrollport {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--dsh-pdf-active) transparent;
+}
+
+.dsh-pdf-viewer__scrollport::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.dsh-pdf-viewer__scrollport::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 6px;
+  background: var(--dsh-pdf-active);
+  background-clip: padding-box;
+}
+
+.dsh-pdf-viewer__scrollport::-webkit-scrollbar-track,
+.dsh-pdf-viewer__scrollport::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.dsh-pdf-viewer__pages {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100%;
+  padding: 12px;
+}
+
+/* ---- Page surface ------------------------------------------------------- */
+
+.dsh-pdf-viewer__page {
+  position: relative;
+  flex: none;
+  width: 100%;
+  min-width: 0;
+}
+
+.dsh-pdf-viewer__sizer {
+  position: relative;
+  margin-inline: auto;
+  background: var(--dsh-pdf-page);
+  border-radius: 2px;
+  box-shadow: var(--dsh-pdf-shadow);
+}
+
+.dsh-pdf-viewer__surface {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.dsh-pdf-viewer__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.dsh-pdf-viewer__text {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+}
+
+.dsh-pdf-viewer__placeholder {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: var(--dsh-pdf-skeleton);
+  animation: dsh-pdf-pulse 1.6s ease-in-out infinite;
+}
+
+.dsh-pdf-viewer__spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  box-sizing: border-box;
+  border: 2px solid var(--dsh-pdf-label-secondary);
+  border-top-color: transparent;
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: dsh-pdf-spin 0.8s linear infinite;
+}
+
+@keyframes dsh-pdf-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes dsh-pdf-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dsh-pdf-viewer__placeholder,
+  .dsh-pdf-viewer__spinner {
+    animation: none;
+  }
+}
+
+/* ---- Status surfaces ---------------------------------------------------- */
+
+.dsh-pdf-viewer__status {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-sizing: border-box;
+  padding: 24px;
+  color: var(--dsh-pdf-label-secondary);
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.dsh-pdf-viewer__status--inline {
+  position: static;
+  min-height: 180px;
+}
+
+.dsh-pdf-viewer__status-message {
+  max-width: 32em;
+}
+
+.dsh-pdf-viewer__spinner--large {
+  position: static;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+}
+
+.dsh-pdf-viewer__retry {
+  appearance: none;
+  padding: 5px 14px;
+  border: 1px solid var(--dsh-pdf-toolbar-border);
+  border-radius: 7px;
+  background: var(--dsh-pdf-hover);
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.dsh-pdf-viewer__retry:hover {
+  background: var(--dsh-pdf-active);
+}
+
+.dsh-pdf-viewer__retry:focus-visible {
+  outline: 2px solid var(--dsh-pdf-focus);
+  outline-offset: 1px;
+}
+
+.dsh-pdf-viewer__page-error {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+  padding: 16px;
+  border-radius: 2px;
+  background: var(--dsh-pdf-page);
+  color: var(--dsh-pdf-danger);
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* ---- Selection context menu -------------------------------------------- */
+
+.dsh-pdf-viewer__menu {
+  position: absolute;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  box-sizing: border-box;
+  min-width: 128px;
+  padding: 4px;
+  border: 1px solid var(--dsh-pdf-menu-border);
+  border-radius: 10px;
+  background: var(--dsh-pdf-menu-bg);
+  box-shadow: var(--dsh-pdf-menu-shadow);
+  color: var(--dsh-text-primary, var(--dsh-pdf-label));
+}
+
+.dsh-pdf-viewer__menu-item {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.dsh-pdf-viewer__menu-item:hover {
+  background: var(--dsh-pdf-hover);
+}
+
+.dsh-pdf-viewer__menu-item:active {
+  background: var(--dsh-pdf-active);
+}
+
+.dsh-pdf-viewer__menu-item:focus-visible {
+  outline: 2px solid var(--dsh-pdf-focus);
+  outline-offset: -2px;
+}
+
+.dsh-pdf-viewer__menu-item--copied {
+  color: var(--dsh-pdf-accent);
+}
+
+.dsh-pdf-viewer__menu-separator {
+  height: 1px;
+  margin: 2px 6px;
+  background: var(--dsh-pdf-toolbar-border);
+}
+
+/* ---- PDF.js text layer (scoped copy of the official viewer rules) ------- */
+
+.dsh-pdf-viewer .textLayer {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  color-scheme: only light;
+  line-height: 1;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-align: initial;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  caret-color: CanvasText;
+  z-index: 0;
+  --min-font-size: 1;
+  --text-scale-factor: calc(var(--total-scale-factor) * var(--min-font-size));
+  --min-font-size-inv: calc(1 / var(--min-font-size));
+}
+
+.dsh-pdf-viewer .textLayer :is(span, br) {
+  position: absolute;
+  color: transparent;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0 0;
+  user-select: text;
+}
+
+.dsh-pdf-viewer .textLayer > :not(.markedContent),
+.dsh-pdf-viewer .textLayer .markedContent span:not(.markedContent) {
+  z-index: 1;
+  --font-height: 0;
+  --scale-x: 1;
+  --rotate: 0deg;
+  font-size: calc(var(--text-scale-factor) * var(--font-height));
+  transform: rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv));
+}
+
+.dsh-pdf-viewer .textLayer .markedContent {
+  display: contents;
+}
+
+.dsh-pdf-viewer .textLayer span[role="img"] {
+  user-select: none;
+  cursor: default;
+}
+
+.dsh-pdf-viewer .textLayer ::selection {
+  background: var(--dsh-pdf-selection);
+  color: transparent;
+}
+
+.dsh-pdf-viewer .textLayer br::selection {
+  background: transparent;
+}
+
+.dsh-pdf-viewer .textLayer .endOfContent {
+  display: block;
+  position: absolute;
+  inset: 100% 0 0;
+  z-index: 0;
+  cursor: default;
+  user-select: none;
+}
+
+.dsh-pdf-viewer .textLayer.selecting .endOfContent {
+  top: 0;
+}

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="PDF Reader for DeepSeek Harness">
+  <defs>
+    <linearGradient id="bg" x1="48" y1="24" x2="464" y2="488" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4F7CFF"/>
+      <stop offset="0.55" stop-color="#5B6BFF"/>
+      <stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+    <linearGradient id="page" x1="168" y1="120" x2="352" y2="404" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#E8EDFF"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="196" y1="300" x2="316" y2="376" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FF5A64"/>
+      <stop offset="1" stop-color="#E12A3A"/>
+    </linearGradient>
+    <filter id="shadow" x="96" y="72" width="320" height="384" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#1B2A6B" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <circle cx="424" cy="96" r="150" fill="#FFFFFF" opacity="0.08"/>
+  <circle cx="72" cy="440" r="130" fill="#0B1B52" opacity="0.12"/>
+  <g filter="url(#shadow)">
+    <path d="M156 120h132l68 68v196a16 16 0 0 1-16 16H156a16 16 0 0 1-16-16V136a16 16 0 0 1 16-16z" fill="url(#page)"/>
+    <path d="M288 120l68 68h-52a16 16 0 0 1-16-16z" fill="#C7D4FF"/>
+  </g>
+  <g opacity="0.55" fill="#5B6BFF">
+    <rect x="172" y="176" width="146" height="12" rx="6"/>
+    <rect x="172" y="204" width="112" height="12" rx="6"/>
+    <rect x="172" y="232" width="134" height="12" rx="6"/>
+  </g>
+  <rect x="172" y="268" width="168" height="26" rx="8" fill="#FFE07A"/>
+  <rect x="172" y="268" width="168" height="26" rx="8" fill="none" stroke="#F2C33D" stroke-width="2" opacity="0.85"/>
+  <g>
+    <rect x="172" y="316" width="168" height="76" rx="18" fill="url(#mark)"/>
+    <text x="256" y="368" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="42" font-weight="800" letter-spacing="2" fill="#FFFFFF">PDF</text>
+  </g>
+  <g fill="#FFFFFF" opacity="0.9">
+    <path d="M372 356l10 24 24 10-24 10-10 24-10-24-24-10 24-10z" opacity="0.75"/>
+  </g>
+  <g stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.9">
+    <path d="M96 236v-52a24 24 0 0 1 24-24h52"/>
+    <path d="M416 276v52a24 24 0 0 1-24 24h-52"/>
+  </g>
+</svg>

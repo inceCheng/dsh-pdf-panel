@@ -1,0 +1,6 @@
+# dsh-pdf-panel bundle layer: one client-side row. The package's client half
+# (lib/client.js, declared through dsh.client in package.json) registers the
+# right-sidebar PDF reader and the selection actions.
+- insert:
+    - id: dsh-pdf-panel
+      name: 'dsh-pdf-panel'

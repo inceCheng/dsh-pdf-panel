@@ -1,0 +1,17 @@
+# Dependency trees and build scratch
+node_modules/
+lab/node_modules/
+.build/
+
+# Lab build output and generated screenshots
+lab/dist/
+lab/.build/
+lab/screenshots/
+
+# Packed artifacts and local overrides
+*.tgz
+*.zip
+npm-debug.log*
+.DS_Store
+.env
+.env.*

@@ -1,0 +1,175 @@
+/**
+ * Right-sidebar PDF panel shell and conversation-header entry.
+ * Colours come from the host theme where it exposes variables and fall back to
+ * neutral values so the panel stays legible in either theme.
+ */
+
+.dsh-pdf-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  font-size: 13px;
+  color: var(--dsh-text-primary, #1f2328);
+}
+
+.dsh-pdf-panel__bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 10px;
+  border-bottom: 1px solid var(--dsh-border-subtle, rgba(0, 0, 0, 0.08));
+}
+
+.dsh-pdf-panel__file {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.dsh-pdf-panel__btn,
+.dsh-pdf-panel__primary,
+.dsh-pdf-panel__link {
+  flex: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.dsh-pdf-panel__btn {
+  border: 1px solid var(--dsh-border-subtle, rgba(0, 0, 0, 0.12));
+  background: transparent;
+  padding: 3px 8px;
+  font-size: 12px;
+}
+
+.dsh-pdf-panel__btn:hover {
+  background: var(--dsh-fill-subtle, rgba(0, 0, 0, 0.05));
+}
+
+.dsh-pdf-panel__viewer {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.dsh-pdf-panel__empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 28px 20px;
+  text-align: center;
+}
+
+.dsh-pdf-panel__glyph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dsh-text-tertiary, #8a8f98);
+  margin-bottom: 2px;
+}
+
+.dsh-pdf-panel__empty-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.dsh-pdf-panel__empty-hint,
+.dsh-pdf-panel__hint {
+  max-width: 34em;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--dsh-text-secondary, #6b7280);
+}
+
+.dsh-pdf-panel__hint {
+  margin-top: 4px;
+  color: var(--dsh-text-tertiary, #8a8f98);
+}
+
+.dsh-pdf-panel__primary {
+  margin-top: 6px;
+  border: 1px solid var(--dsh-border-subtle, rgba(0, 0, 0, 0.12));
+  background: var(--dsh-fill-subtle, rgba(0, 0, 0, 0.05));
+  padding: 6px 14px;
+}
+
+.dsh-pdf-panel__primary:hover {
+  background: var(--dsh-fill-hover, rgba(0, 0, 0, 0.08));
+}
+
+.dsh-pdf-panel__status {
+  padding: 16px;
+  color: var(--dsh-text-secondary, #6b7280);
+  font-size: 12px;
+}
+
+.dsh-pdf-panel__error {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-top: 1px solid var(--dsh-border-subtle, rgba(0, 0, 0, 0.08));
+  color: #c0392b;
+  font-size: 12px;
+}
+
+.dsh-pdf-panel__link {
+  border: none;
+  background: transparent;
+  text-decoration: underline;
+  font-size: 12px;
+  color: inherit;
+  padding: 0;
+}
+
+.dsh-pdf-panel__drop {
+  position: absolute;
+  inset: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--dsh-accent, #4f8cff);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--dsh-accent, #4f8cff) 10%, transparent);
+  color: var(--dsh-accent, #4f8cff);
+  font-weight: 600;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Conversation-header entry that opens the reader. */
+.dsh-pdf-header-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 26px;
+  min-width: 26px;
+  padding: 0 6px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.dsh-pdf-header-action:hover {
+  background: var(--dsh-fill-subtle, rgba(0, 0, 0, 0.06));
+}
+
+.dsh-pdf-header-action__label {
+  font-size: 12px;
+}

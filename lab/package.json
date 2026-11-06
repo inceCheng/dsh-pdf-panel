@@ -1,0 +1,17 @@
+{
+  "name": "dsh-pdf-panel-lab",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Standalone browser harness for the dsh-pdf-panel lazy PDF viewer chunk (not part of the plugin build or package).",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node build.mjs && node test.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "playwright-core": "^1.49.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  }
+}
