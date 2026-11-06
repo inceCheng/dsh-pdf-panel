@@ -151,4 +151,4 @@ dsh plugin --profile web add dsh-pdf-panel
 
 ## 许可证
 
-[MIT](LICENSE)。构建产物内嵌的 PDF.js（Mozilla）以 Apache-2.0 分发，其许可声明保留在 `lib/client.pdf.js` 文件头。
+[MIT](LICENSE)。构建产物内嵌的 PDF.js（Mozilla）以 Apache-2.0 分发，详见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)，其许可声明保留在 `lib/client.pdf.js` 文件头。

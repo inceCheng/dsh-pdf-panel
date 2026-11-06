@@ -1,7 +1,7 @@
 {
   "name": "dsh-pdf-panel",
   "version": "0.1.0",
-  "description": "Right-sidebar PDF reader for DeepSeek Harness: drop a PDF, select text, right-click 解读 / 翻译 to send the passage and a ready prompt into the chat composer.",
+  "description": "Right-sidebar PDF reader for DeepSeek Harness: drop a PDF, select text, right-click \u89e3\u8bfb / \u7ffb\u8bd1 to send the passage and a ready prompt into the chat composer.",
   "type": "module",
   "main": "./lib/index.js",
   "exports": {
@@ -17,7 +17,9 @@
     "LICENSE",
     "docs",
     "assets",
-    "locale"
+    "locale",
+    "THIRD_PARTY_NOTICES.md",
+    "CHANGELOG.md"
   ],
   "icon": "./assets/icon.svg",
   "dsh": {
